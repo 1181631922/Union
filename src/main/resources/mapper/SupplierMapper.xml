@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.education.union.dao.SupplierMapper">
+  <resultMap id="BaseResultMap" type="com.education.union.model.Supplier">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="phone_number" jdbcType="INTEGER" property="phoneNumber" />
+    <result column="delete_status" jdbcType="BIT" property="deleteStatus" />
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="supplier_token" jdbcType="VARCHAR" property="supplierToken" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, password, status, phone_number, delete_status, role_id, supplier_token
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_supplier
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_supplier
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.education.union.model.Supplier">
+    insert into t_supplier (id, name, password, 
+      status, phone_number, delete_status, 
+      role_id, supplier_token)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{phoneNumber,jdbcType=INTEGER}, #{deleteStatus,jdbcType=BIT}, 
+      #{roleId,jdbcType=INTEGER}, #{supplierToken,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.education.union.model.Supplier">
+    insert into t_supplier
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="phoneNumber != null">
+        phone_number,
+      </if>
+      <if test="deleteStatus != null">
+        delete_status,
+      </if>
+      <if test="roleId != null">
+        role_id,
+      </if>
+      <if test="supplierToken != null">
+        supplier_token,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="phoneNumber != null">
+        #{phoneNumber,jdbcType=INTEGER},
+      </if>
+      <if test="deleteStatus != null">
+        #{deleteStatus,jdbcType=BIT},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="supplierToken != null">
+        #{supplierToken,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.education.union.model.Supplier">
+    update t_supplier
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="phoneNumber != null">
+        phone_number = #{phoneNumber,jdbcType=INTEGER},
+      </if>
+      <if test="deleteStatus != null">
+        delete_status = #{deleteStatus,jdbcType=BIT},
+      </if>
+      <if test="roleId != null">
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="supplierToken != null">
+        supplier_token = #{supplierToken,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.education.union.model.Supplier">
+    update t_supplier
+    set name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      phone_number = #{phoneNumber,jdbcType=INTEGER},
+      delete_status = #{deleteStatus,jdbcType=BIT},
+      role_id = #{roleId,jdbcType=INTEGER},
+      supplier_token = #{supplierToken,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.education.union.dao.LoginMapper">
+    <select id="getUser" resultType="com.alibaba.fastjson.JSONObject">
+        select
+            u.id userId,
+            u.mobile mobile,
+            u.name name,
+            u.password password,
+            u.nickname nickName
+        from
+            t_user u
+        where u.mobile = #{mobile}
+            and u.password = #{password}
+            and u.delete_status = 1
+    </select>
+</mapper>
