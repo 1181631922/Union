@@ -37,11 +37,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
         User user=getUser(request, (HandlerMethod) handler);
         if (user!=null){
-            request.setAttribute(Constants.REQUEST_SUPPLIER,user);
+            request.setAttribute(Constants.REQUEST_USER,user);
             return true;
         }else {
             if (accessRequired == AUTH_OPTIONAL) { // 同时支持无帐号的接口设置user=null
-                request.setAttribute(Constants.REQUEST_SUPPLIER, null);
+                request.setAttribute(Constants.REQUEST_USER, null);
                 return true;
             } else { // 根据是否redirectURL是跳转登录页或返回wrongpass
                 String redirectURL = getRedirectURL((HandlerMethod) handler);

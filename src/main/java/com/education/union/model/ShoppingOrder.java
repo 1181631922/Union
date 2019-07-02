@@ -2,10 +2,14 @@ package com.education.union.model;
 
 import java.util.Date;
 
-public class Role {
+public class ShoppingOrder {
     private Integer id;
 
-    private String roleName;
+    private Integer userId;
+
+    private Long totalPrice;
+
+    private Integer status;
 
     private Date createTime;
 
@@ -21,12 +25,28 @@ public class Role {
         this.id = id;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Date getCreateTime() {

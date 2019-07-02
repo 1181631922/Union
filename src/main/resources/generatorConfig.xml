@@ -33,17 +33,22 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 生成对应表及类名 -->
+        <table tableName="t_class" domainObjectName="Class"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"/>
+        <table tableName="t_class_supplier" domainObjectName="ClassSupplier"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"/>
         <table tableName="t_goods" domainObjectName="Goods"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false"/>
         <table tableName="t_grade" domainObjectName="Grade"
-               enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               enableUpdateByExample="false"/>
-        <table tableName="t_main_order" domainObjectName="MainOrder"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
@@ -63,12 +68,17 @@
                enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false"/>
-        <table tableName="t_shopping" domainObjectName="Shopping"
+        <table tableName="t_shopping_order" domainObjectName="ShoppingOrder"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false"/>
-        <table tableName="t_son_order" domainObjectName="SonOrder"
+        <table tableName="t_shopping_son_order" domainObjectName="ShoppingSonOrder"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"/>
+        <table tableName="t_status" domainObjectName="Status"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
@@ -84,6 +94,11 @@
                enableSelectByExample="false"
                enableUpdateByExample="false"/>
         <table tableName="t_supplier_order" domainObjectName="SupplierOrder"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"/>
+        <table tableName="t_supplier_son_order" domainObjectName="SupplierSonOrder"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"

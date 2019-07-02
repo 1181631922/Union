@@ -1,11 +1,13 @@
 package com.education.union.model;
 
-public class Shopping {
+public class SupplierSonOrder {
     private Integer id;
+
+    private Integer supplierOrderId;
 
     private Integer goodsId;
 
-    private Integer userId;
+    private Integer status;
 
     private Long price;
 
@@ -17,6 +19,14 @@ public class Shopping {
         this.id = id;
     }
 
+    public Integer getSupplierOrderId() {
+        return supplierOrderId;
+    }
+
+    public void setSupplierOrderId(Integer supplierOrderId) {
+        this.supplierOrderId = supplierOrderId;
+    }
+
     public Integer getGoodsId() {
         return goodsId;
     }
@@ -25,12 +35,12 @@ public class Shopping {
         this.goodsId = goodsId;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public Long getPrice() {

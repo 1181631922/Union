@@ -3,6 +3,7 @@ package com.education.union.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.education.union.dao.LoginMapper;
 import com.education.union.service.LoginService;
+import com.education.union.util.Base64Util;
 import com.education.union.util.CommonUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -40,10 +41,20 @@ public class LoginServiceImpl implements LoginService {
         try {
             currentUser.login(token);
             data.put("result", "success");
-            data.put("token", currentUser.getSession().getId());
-            Session session = currentUser.getSession();
-            session.setTimeout(25000);
-            session.setAttribute("currentUser", mobile);
+            JSONObject token1 = loginMapper.getToken(mobile, password);
+            Integer userId = token1.getIntValue("userId");
+            if (userId < 10) {
+                token1.put("userId", Base64Util.encode("0" + userId.toString()));
+            } else {
+                token1.put("userId", Base64Util.encode(userId.toString()));
+            }
+            token1.put("userToken", Base64Util.encodeToken(token1.getString("userToken")));
+            data.put("userInfo", token1);
+
+//            data.put("token", currentUser.getSession().getId());
+//            Session session = currentUser.getSession();
+//            session.setTimeout(25000);
+//            session.setAttribute("currentUser", mobile);
         } catch (AuthenticationException e) {
 //            e.printStackTrace();
             data.put("result", "fail");

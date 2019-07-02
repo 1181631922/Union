@@ -29,7 +29,7 @@ public class IdentityParamResolver implements HandlerMethodArgumentResolver {
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		if (parameter.getParameterType().equals(User.class)) {
-			return webRequest.getAttribute(Constants.REQUEST_SUPPLIER, RequestAttributes.SCOPE_REQUEST);
+			return webRequest.getAttribute(Constants.REQUEST_USER, RequestAttributes.SCOPE_REQUEST);
 		}
 		return null;
 	}

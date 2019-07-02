@@ -1,7 +1,9 @@
 package com.education.union.model;
 
-public class SupplierGoods {
+public class ClassSupplier {
     private Integer id;
+
+    private Integer classId;
 
     private Integer supplierId;
 
@@ -13,6 +15,14 @@ public class SupplierGoods {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Integer classId) {
+        this.classId = classId;
     }
 
     public Integer getSupplierId() {

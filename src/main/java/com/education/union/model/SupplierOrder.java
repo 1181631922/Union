@@ -5,8 +5,6 @@ import java.util.Date;
 public class SupplierOrder {
     private Integer id;
 
-    private Integer goodsId;
-
     private Integer userId;
 
     private Integer supplierId;
@@ -21,20 +19,16 @@ public class SupplierOrder {
 
     private Long supplierOrderId;
 
+    private Integer timeStatus;
+
+    private Long totalPrice;
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(Integer goodsId) {
-        this.goodsId = goodsId;
     }
 
     public Integer getUserId() {
@@ -91,5 +85,21 @@ public class SupplierOrder {
 
     public void setSupplierOrderId(Long supplierOrderId) {
         this.supplierOrderId = supplierOrderId;
+    }
+
+    public Integer getTimeStatus() {
+        return timeStatus;
+    }
+
+    public void setTimeStatus(Integer timeStatus) {
+        this.timeStatus = timeStatus;
+    }
+
+    public Long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

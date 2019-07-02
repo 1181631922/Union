@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.education.union.dao.SupplierGoodsMapper">
-  <resultMap id="BaseResultMap" type="com.education.union.model.SupplierGoods">
+<mapper namespace="com.education.union.dao.ClassSupplierMapper">
+  <resultMap id="BaseResultMap" type="com.education.union.model.ClassSupplier">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="class_id" jdbcType="INTEGER" property="classId" />
     <result column="supplier_id" jdbcType="INTEGER" property="supplierId" />
     <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, supplier_id, goods_id
+    id, class_id, supplier_id, goods_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_supplier_goods
+    from t_class_supplier
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_supplier_goods
+    delete from t_class_supplier
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.education.union.model.SupplierGoods">
-    insert into t_supplier_goods (id, supplier_id, goods_id
-      )
-    values (#{id,jdbcType=INTEGER}, #{supplierId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}
-      )
+  <insert id="insert" parameterType="com.education.union.model.ClassSupplier">
+    insert into t_class_supplier (id, class_id, supplier_id, 
+      goods_id)
+    values (#{id,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, #{supplierId,jdbcType=INTEGER}, 
+      #{goodsId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.education.union.model.SupplierGoods">
-    insert into t_supplier_goods
+  <insert id="insertSelective" parameterType="com.education.union.model.ClassSupplier">
+    insert into t_class_supplier
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="classId != null">
+        class_id,
       </if>
       <if test="supplierId != null">
         supplier_id,
@@ -42,6 +46,9 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="classId != null">
+        #{classId,jdbcType=INTEGER},
+      </if>
       <if test="supplierId != null">
         #{supplierId,jdbcType=INTEGER},
       </if>
@@ -50,9 +57,12 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.education.union.model.SupplierGoods">
-    update t_supplier_goods
+  <update id="updateByPrimaryKeySelective" parameterType="com.education.union.model.ClassSupplier">
+    update t_class_supplier
     <set>
+      <if test="classId != null">
+        class_id = #{classId,jdbcType=INTEGER},
+      </if>
       <if test="supplierId != null">
         supplier_id = #{supplierId,jdbcType=INTEGER},
       </if>
@@ -62,9 +72,10 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.education.union.model.SupplierGoods">
-    update t_supplier_goods
-    set supplier_id = #{supplierId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.education.union.model.ClassSupplier">
+    update t_class_supplier
+    set class_id = #{classId,jdbcType=INTEGER},
+      supplier_id = #{supplierId,jdbcType=INTEGER},
       goods_id = #{goodsId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

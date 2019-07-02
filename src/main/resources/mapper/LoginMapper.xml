@@ -12,6 +12,20 @@
             t_user u
         where u.mobile = #{mobile}
             and u.password = #{password}
-            and u.delete_status = 1
+            and u.delete_status = 0
+    </select>
+
+    <select id="getToken" resultType="com.alibaba.fastjson.JSONObject">
+        select
+            u.id userId,
+            u.mobile mobile,
+            u.name name,
+            u.nickname nickName,
+            u.user_token userToken
+        from
+            t_user u
+        where u.mobile = #{mobile}
+            and u.password = #{password}
+            and u.status = 0
     </select>
 </mapper>

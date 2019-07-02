@@ -1,6 +1,7 @@
 package com.education.union.controller.login;
 
 import com.alibaba.fastjson.JSONObject;
+import com.education.union.model.User;
 import com.education.union.service.LoginService;
 import com.education.union.util.CommonUtil;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,11 @@ public class LoginController {
     public JSONObject authLogin(@RequestBody JSONObject requestJson) {
         CommonUtil.hasAllRequired(requestJson, "mobile,password");
         return loginService.authLogin(requestJson);
+    }
+
+    @PostMapping("/test")
+    public JSONObject testUser(User user) {
+        return CommonUtil.successJson(user.getMobile());
     }
 
     @PostMapping("/logout")

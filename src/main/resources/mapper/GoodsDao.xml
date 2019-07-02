@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.education.union.dao.GoodsDao">
+    <select id="countMainList" resultType="Integer">
+        select count(0)
+        from t_goods g
+        where g.delete_status=0
+        <if test="gradeId != null and gradeId != 0">
+            and g.grade_id = #{gradeId}
+        </if>
+        <if test="subjectId != null and subjectId != 0">
+            and g.subject_id = #{subjectId}
+        </if>
+    </select>
+
+    <select id="getMainList" resultType="com.alibaba.fastjson.JSONObject">
+        select
+            g.id                id,
+            g.goods_code        goodsCode,
+            g.goods_name        goodsName,
+            g.status            status,
+            g.goods_url         goodUrl,
+            g.goods_desc        goodDesc,
+            g.price             price,
+            g.sale_price        salePrice,
+            g.img               img,
+            s.name              supplierName,
+            gd.name             gradeName,
+            sj.name             subjectName
+        from t_goods g
+            left join t_supplier s on s.id=g.supplier_id
+            left join t_grade gd on gd.id=g.grade_id
+            left join t_subject sj on sj.id=g.subject_id
+        where   g.delete_status=0
+         <if test="gradeId != null and gradeId != 0">
+             and g.grade_id = #{gradeId}
+         </if>
+         <if test="subjectId !=null and subjectId != 0">
+             and g.subject_id = #{subjectId}
+         </if>
+         order by g.id
+            limit #{offset},#{pageRow}
+    </select>
+
+</mapper>

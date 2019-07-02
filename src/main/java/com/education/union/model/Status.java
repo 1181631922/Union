@@ -1,9 +1,11 @@
 package com.education.union.model;
 
-public class Classify {
+public class Status {
     private Integer id;
 
     private String name;
+
+    private Boolean deleteStatus;
 
     public Integer getId() {
         return id;
@@ -19,5 +21,13 @@ public class Classify {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    public void setDeleteStatus(Boolean deleteStatus) {
+        this.deleteStatus = deleteStatus;
     }
 }

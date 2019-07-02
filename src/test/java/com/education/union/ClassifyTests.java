@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 /**
  * Author： fanyafeng
@@ -25,4 +26,10 @@ public class ClassifyTests {
 //        jsonObject.put("name", "高一课程");
 //        classifyService.addClassify(jsonObject);
 //    }
+
+    public static void main(String[] args) {
+        System.out.println(UUID.randomUUID().toString());
+    }
 }
+
+

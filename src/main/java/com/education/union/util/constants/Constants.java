@@ -8,7 +8,7 @@ package com.education.union.util.constants;
  * 通用常量类，单个业务的常量请单开一个类，方便常量的分类管理
  */
 public class Constants {
-    final public static String PREFIX = "base64union";
+    final public static String PREFIX = "education64union";
 
     public static final String SUCCESS_CODE = "100";
     public static final String SUCCESS_MSG = "请求成功";
@@ -27,5 +27,5 @@ public class Constants {
     /**
      * 用户存储
      */
-    final public static String REQUEST_SUPPLIER = "supplier";
+    final public static String REQUEST_USER = "user";
 }
