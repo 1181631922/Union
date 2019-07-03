@@ -13,6 +13,13 @@
         </if>
     </select>
 
+    <select id="countFuzzyGoods" resultType="Integer">
+        select count(0)
+            from t_goods t
+        where t.delete_status=0
+            and t.goods_name like concat('%',#{name},'%')
+    </select>
+
     <select id="getMainList" resultType="com.alibaba.fastjson.JSONObject">
         select
             g.id                id,
@@ -40,6 +47,29 @@
          </if>
          order by g.id
             limit #{offset},#{pageRow}
+    </select>
+
+    <select id="getFuzzyGoods" resultType="com.alibaba.fastjson.JSONObject">
+        select t.id         id,
+        t.goods_code    goodsCode,
+        t.goods_name    goodsName,
+        t.status        status,
+        t.goods_url     goodsUrl,
+        t.goods_desc    goodsDesc,
+        t.supplier_id   supplierId,
+        t.price         price,
+        t.sale_price    salePrice,
+        t.grade_id      gradeId,
+        t.subject_id    subjectId,
+        g.name          gradeName,
+        s.name          subjectName
+        from t_goods t
+        left join t_grade g on g.id=t.grade_id
+        left join t_subject s on s.id=t.subject_id
+        where t.delete_status=0
+            and t.goods_name like concat('%',#{name},'%')
+        order by id
+        limit #{offset},#{pageRow}
     </select>
 
 </mapper>

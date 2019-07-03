@@ -39,5 +39,10 @@ public class GoodsController {
         }
     }
 
+    @PostMapping("/fuzzySearch")
+    public JSONObject fuzzySearch(@RequestBody JSONObject requestJson){
+        CommonUtil.hasAllRequired(requestJson, "pageNum,name");
+        return goodsService.fuzzySearch(requestJson);
+    }
 
 }

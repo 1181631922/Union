@@ -13,4 +13,9 @@ public interface GoodsService {
      * 如果都不传的话返回空
      */
     JSONObject getMainList(JSONObject jsonObject);
+
+    /**
+     * 根据商品名称模糊搜索
+     */
+    JSONObject fuzzySearch(JSONObject jsonObject);
 }

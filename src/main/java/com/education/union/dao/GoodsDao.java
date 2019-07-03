@@ -14,4 +14,14 @@ public interface GoodsDao {
     Integer countMainList(JSONObject jsonObject);
 
     List<JSONObject> getMainList(JSONObject jsonObject);
+
+    /**
+     * 模糊统计数量
+     */
+    Integer countFuzzyGoods(JSONObject jsonObject);
+
+    /**
+     * 模糊搜索
+     */
+    List<JSONObject> getFuzzyGoods(JSONObject jsonObject);
 }

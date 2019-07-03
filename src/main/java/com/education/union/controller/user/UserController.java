@@ -1,5 +1,6 @@
 package com.education.union.controller.user;
 
+import com.alibaba.fastjson.JSONObject;
 import com.education.union.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,13 +18,12 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    @GetMapping("/list")
-    public User listUser() {
-        User user = new User();
-        user.setName("樊亚风");
-        user.setNickname("昵称");
-        user.setPassword("testpassword");
-        user.setMobile("18010479518");
-        return user;
+    /**
+     * 获取订单列表
+     * @return
+     */
+    @GetMapping("/getGoods")
+    public JSONObject getGoods() {
+        return null;
     }
 }
