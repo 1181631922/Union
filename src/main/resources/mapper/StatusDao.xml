@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.education.union.dao.StatusDao">
+    <select id="getStatusById" resultType="com.alibaba.fastjson.JSONObject">
+        select s.id      statusId,
+            s.name       name
+        from t_status s
+        where s.delete_status=0
+            and s.id = #{statusId}
+    </select>
+
+    <select id="getStatusList" resultType="com.alibaba.fastjson.JSONObject">
+        select s.id      statusId,
+            s.name       name
+        from t_status s
+        where s.delete_status=0
+    </select>
+</mapper>

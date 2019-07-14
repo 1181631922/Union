@@ -23,7 +23,7 @@
     delete from t_shopping_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.education.union.model.ShoppingOrder">
+  <insert id="insert" parameterType="com.education.union.model.ShoppingOrder" keyProperty="id" useGeneratedKeys="true">
     insert into t_shopping_order (id, user_id, total_price, 
       status, create_time, update_time, 
       delete_status)
@@ -31,7 +31,7 @@
       #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{deleteStatus,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="com.education.union.model.ShoppingOrder">
+  <insert id="insertSelective" parameterType="com.education.union.model.ShoppingOrder" keyProperty="id" useGeneratedKeys="true">
     insert into t_shopping_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

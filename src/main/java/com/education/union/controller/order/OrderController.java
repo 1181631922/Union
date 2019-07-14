@@ -3,9 +3,7 @@ package com.education.union.controller.order;
 import com.alibaba.fastjson.JSONObject;
 import com.education.union.model.User;
 import com.education.union.service.OrderService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -14,6 +12,7 @@ import javax.annotation.Resource;
  * Data： 2019-07-14 11:23
  * Email: fanyafeng@live.cn
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/order")
 public class OrderController {
@@ -37,7 +36,7 @@ public class OrderController {
      * timeStatus   50000 未开始   50001 已开始   50002 已结束
      */
     @PostMapping("/getOrderList")
-    public JSONObject getOrderList(JSONObject jsonObject, User user) {
+    public JSONObject getOrderList(@RequestBody JSONObject jsonObject, User user) {
         Integer userId = user.getId();
         jsonObject.put("userId", userId);
         return orderService.getUserListByStatus(jsonObject);
