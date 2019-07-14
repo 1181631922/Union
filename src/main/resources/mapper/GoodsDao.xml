@@ -59,8 +59,13 @@
         t.supplier_id   supplierId,
         t.price         price,
         t.sale_price    salePrice,
+        t.img           img,
         t.grade_id      gradeId,
         t.subject_id    subjectId,
+        t.start_time    startTime,
+        t.update_time   updateTime,
+        t.end_time      endTime,
+        t.create_time   createTime,
         g.name          gradeName,
         s.name          subjectName
         from t_goods t

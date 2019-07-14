@@ -5,6 +5,7 @@ import com.education.union.dao.LoginMapper;
 import com.education.union.service.LoginService;
 import com.education.union.util.Base64Util;
 import com.education.union.util.CommonUtil;
+import com.education.union.util.MD5Transfer;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -33,7 +34,8 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public JSONObject authLogin(JSONObject jsonObject) {
         String mobile = jsonObject.getString("mobile");
-        String password = jsonObject.getString("password");
+        String originPassword = jsonObject.getString("password");
+        String password= MD5Transfer.MD5(originPassword);
         JSONObject data = new JSONObject();
         Subject currentUser = SecurityUtils.getSubject();
 

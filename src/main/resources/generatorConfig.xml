@@ -53,6 +53,11 @@
                enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false"/>
+        <table tableName="t_image" domainObjectName="Image"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"/>
         <table tableName="t_permission" domainObjectName="Permission"
                enableCountByExample="false"
                enableDeleteByExample="false"
@@ -104,6 +109,11 @@
                enableSelectByExample="false"
                enableUpdateByExample="false"/>
         <table tableName="t_user" domainObjectName="User"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"/>
+        <table tableName="t_video" domainObjectName="Video"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"

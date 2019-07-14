@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.education.union.dao.OrderDao">
+    <resultMap id="orderMap" type="com.education.union.util.model.One2Many">
+        <id column="orderId" property="orderId"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="endTime" property="endTime"/>
+        <result column="totalPrice" property="totalPrice"/>
+        <result column="payStatus" property="payStatus"/>
+        <result column="status" property="status"/>
+        <result column="timeStatus" property="timeStatus"/>
+        <result column="payStatus" property="payStatus"/>
+        <collection property="orderSonList" ofType="com.alibaba.fastjson.JSONObject">
+            <id column="sonOrderId" property="sonOrderId"/>
+            <result column="goodsId" property="goodsId"/>
+            <result column="goodsName" property="goodsName"/>
+            <result column="goodsUrl" property="goodsUrl"/>
+            <result column="goodsDesc" property="goodsDesc"/>
+            <result column="salePrice" property="salePrice"/>
+            <result column="img" property="img"/>
+            <result column="startTime" property="startTime"/>
+            <result column="updateTime" property="updateTime"/>
+            <result column="endTime" property="endTime"/>
+            <result column="createTime" property="createTime"/>
+        </collection>
+        <collection property="supplierList" ofType="com.alibaba.fastjson.JSONObject">
+            <id column="supplierId" property="supplierId"/>
+            <result column="supplierName" property="supplierName"/>
+        </collection>
+    </resultMap>
+
+    <select id="getUserListByStatus" resultMap="orderMap">
+        select
+            so.id                 orderId,
+            DATE_FORMAT(so.create_time, '%Y.%m.%d %T')        createTime,
+            DATE_FORMAT(so.update_time, '%Y.%m.%d %T')        updateTime,
+            DATE_FORMAT(so.end_time, '%Y.%m.%d %T')           endTime,
+            so.total_price        totalPrice,
+            so.pay_status         payStatus,
+            so.status             status,
+            so.time_status        timeStatus,
+            so.pay_status         payStatus,
+            sso.id                sonOrderId,
+            g.id                  goodsId,
+            g.goods_name          goodsName,
+            g.goods_url           goodsUrl,
+            g.goods_desc          goodsDesc,
+            g.sale_price          salePrice,
+            g.img                 img,
+            DATE_FORMAT(g.start_time, '%Y.%m.%d %T')          startTime,
+            DATE_FORMAT(g.update_time, '%Y.%m.%d %T')         updateTime,
+            DATE_FORMAT(g.end_time, '%Y.%m.%d %T')            endTime,
+            DATE_FORMAT(g.create_time, '%Y.%m.%d %T')         createTime,
+            s.id                  supplierId,
+            s.name                supplierName
+        from t_supplier_order so
+                left join t_supplier_son_order sso on so.id = sso.supplier_order_id
+                left join t_user u on so.user_id = u.id
+                left join t_supplier s on so.supplier_id = s.id
+                left join t_goods g on sso.goods_id = g.id
+
+        where so.user_id = #{userId}
+            and so.delete_status=0
+            <if test="payStatus != null and payStatus != 0">
+                and so.pay_status = #{payStatus}
+            </if>
+            <if test="status != null and status != 0">
+                and so.status = #{status}
+            </if>
+            <if test="timeStatus != null and timeStatus != 0">
+                and so.time_status = #{timeStatus}
+            </if>
+        order by so.id
+            limit #{offset},#{pageRow}
+    </select>
+
+    <select id="countByStatus" resultType="Integer">
+        select count(0)
+        from t_supplier_order so
+        where so.user_id = #{userId}
+        and so.delete_status=0
+        <if test="payStatus != null and payStatus != 0">
+            and so.pay_status = #{payStatus}
+        </if>
+        <if test="status != null and status != 0">
+            and so.status = #{status}
+        </if>
+        <if test="timeStatus != null and timeStatus != 0">
+            and so.time_status = #{timeStatus}
+        </if>
+    </select>
+
+</mapper>

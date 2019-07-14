@@ -23,6 +23,10 @@ public class SupplierOrder {
 
     private Long totalPrice;
 
+    private Integer payStatus;
+
+    private Date endTime;
+
     public Integer getId() {
         return id;
     }
@@ -101,5 +105,21 @@ public class SupplierOrder {
 
     public void setTotalPrice(Long totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Integer getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(Integer payStatus) {
+        this.payStatus = payStatus;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }

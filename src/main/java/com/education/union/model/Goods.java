@@ -1,5 +1,7 @@
 package com.education.union.model;
 
+import java.util.Date;
+
 public class Goods {
     private Integer id;
 
@@ -26,6 +28,14 @@ public class Goods {
     private Integer gradeId;
 
     private Integer subjectId;
+
+    private Date startTime;
+
+    private Date updateTime;
+
+    private Date endTime;
+
+    private Date createTime;
 
     public Integer getId() {
         return id;
@@ -129,5 +139,37 @@ public class Goods {
 
     public void setSubjectId(Integer subjectId) {
         this.subjectId = subjectId;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

@@ -1,5 +1,7 @@
 package com.education.union.util;
 
+import com.education.union.util.constants.Constants;
+
 import java.util.Base64;
 
 import static com.education.union.util.constants.Constants.PREFIX;
@@ -14,18 +16,19 @@ public class Base64Util {
 
 
     public static String encode(String src) {
-        src = PREFIX + src;
-        byte[] bytes = src.getBytes();
+        String changeSrc = Constants.getPrefix() + src + Constants.getSuffix();
+        byte[] bytes = changeSrc.getBytes();
         return Base64.getEncoder().encodeToString(bytes);
     }
 
     public static String decode(String src) {
         byte[] decoded = Base64.getDecoder().decode(src);
-        String out=new String(decoded);
-        return out.substring(PREFIX.length());
+        String out = new String(decoded);
+        return out.substring(Constants.getPrefix().length(), out.length() - Constants.getSuffix().length());
     }
 
     public static String encodeToken(String src) {
+
         byte[] bytes = src.getBytes();
         return Base64.getEncoder().encodeToString(bytes);
     }

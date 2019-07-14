@@ -3,6 +3,7 @@ package com.education.union.util.model;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Author： fanyafeng
@@ -10,5 +11,6 @@ import java.util.List;
  * Email: fanyafeng@live.cn
  */
 public class One2Many extends JSONObject {
-    private List<JSONObject> userList;
+    private List<JSONObject> orderSonList;
+    private List<JSONObject> supplierList;
 }

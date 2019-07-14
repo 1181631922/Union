@@ -1,5 +1,7 @@
 package com.education.union.util.constants;
 
+import java.util.Random;
+
 /**
  * Author： fanyafeng
  * Data： 2019-06-17 18:16
@@ -9,6 +11,14 @@ package com.education.union.util.constants;
  */
 public class Constants {
     final public static String PREFIX = "education64union";
+
+    public static String getPrefix(){
+        return System.currentTimeMillis() + "";
+    }
+
+    public static String getSuffix(){
+        return String.format("%02d",(new Random()).nextInt(99));
+    }
 
     public static final String SUCCESS_CODE = "100";
     public static final String SUCCESS_MSG = "请求成功";
