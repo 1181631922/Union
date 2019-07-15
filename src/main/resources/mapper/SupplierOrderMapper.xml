@@ -29,7 +29,7 @@
     delete from t_supplier_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.education.union.model.SupplierOrder">
+  <insert id="insert" parameterType="com.education.union.model.SupplierOrder" keyProperty="id" useGeneratedKeys="true">
     insert into t_supplier_order (id, user_id, supplier_id, 
       status, delete_status, create_time, 
       update_time, supplier_order_id, time_status, 
@@ -41,7 +41,7 @@
       #{totalPrice,jdbcType=DECIMAL}, #{payStatus,jdbcType=INTEGER}, #{endTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.education.union.model.SupplierOrder">
+  <insert id="insertSelective" parameterType="com.education.union.model.SupplierOrder" keyProperty="id" useGeneratedKeys="true">
     insert into t_supplier_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

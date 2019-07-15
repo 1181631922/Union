@@ -1,17 +1,22 @@
 package com.education.union.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.education.union.dao.ShopDao;
-import com.education.union.dao.ShoppingOrderMapper;
-import com.education.union.dao.ShoppingSonOrderMapper;
+import com.education.union.dao.*;
 import com.education.union.model.ShoppingOrder;
 import com.education.union.model.ShoppingSonOrder;
+import com.education.union.model.SupplierOrder;
+import com.education.union.model.SupplierSonOrder;
 import com.education.union.service.ShopService;
 import com.education.union.util.CommonUtil;
+import com.education.union.util.SnowflakeUtil;
+import com.education.union.util.constants.ErrorEnum;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Author： fanyafeng
@@ -25,10 +30,19 @@ public class ShopServiceImpl implements ShopService {
     private ShopDao shopDao;
 
     @Resource
+    private OrderDao orderDao;
+
+    @Resource
     private ShoppingSonOrderMapper shoppingSonOrderMapper;
 
     @Resource
     private ShoppingOrderMapper shoppingOrderMapper;
+
+    @Resource
+    private SupplierOrderMapper supplierOrderMapper;
+
+    @Resource
+    private SupplierSonOrderMapper supplierSonOrderMapper;
 
     /**
      * 添加商品
@@ -95,4 +109,136 @@ public class ShopServiceImpl implements ShopService {
         shopDao.delGoods(shopOrderJson);
         return CommonUtil.successJson();
     }
+
+    /**
+     * 提交购物车生成订单
+     *
+     * @param jsonObject
+     */
+    @Override
+    public JSONObject shopSubmit(JSONObject jsonObject) {
+        try {
+            Integer userId = jsonObject.getIntValue("userId");
+            jsonObject.put("userId", userId);
+            Integer shopSize = shopDao.countShopOrderById(jsonObject);
+//            System.out.println("购物车数量：" + shopSize);
+            if (shopSize > 0) {
+                JSONObject shopOrderJson = shopDao.getShopOrder(jsonObject);
+//                System.out.println(shopOrderJson.toString());
+                Integer shopOrderId = shopOrderJson.getIntValue("shopOrderId");
+//                System.out.println("shopOrderId:" + shopOrderId);
+                List<JSONObject> shopSonOrderJson = shopDao.getShopSonOrder(shopOrderJson);
+//                System.out.println(shopSonOrderJson.toString());
+                Integer shopSonOrderSize = shopSonOrderJson.size();
+
+                Long supplierOrderId = SnowflakeUtil.getInstanceSnowflake().nextId();
+
+                Long totalPrice = 0L;
+
+                for (int i = 0; i < shopSonOrderSize; i++) {
+                    JSONObject item = shopSonOrderJson.get(i);
+//                    System.out.println(item.toString());
+                    Integer goodsId = item.getIntValue("goodsId");
+                    Long price = item.getLongValue("price");
+                    Integer count = item.getIntValue("count");
+                    item.put("shopOrderId",shopOrderId);
+
+                    SupplierSonOrder supplierSonOrder = new SupplierSonOrder();
+                    supplierSonOrder.setGoodsId(goodsId);
+                    supplierSonOrder.setPrice(price);
+                    supplierSonOrder.setCount(count);
+                    supplierSonOrder.setSupplierOrderId(supplierOrderId);
+                    supplierSonOrderMapper.insertSelective(supplierSonOrder);
+                    totalPrice += (price * count);
+
+                    shopDao.delGoods(item);
+                }
+
+                SupplierOrder supplierOrder = new SupplierOrder();
+                supplierOrder.setUserId(userId);
+                supplierOrder.setStatus(40000);
+                supplierOrder.setCreateTime(new Date());
+                supplierOrder.setUpdateTime(new Date());
+                supplierOrder.setSupplierOrderId(supplierOrderId);
+                supplierOrder.setTimeStatus(50000);
+                supplierOrder.setTotalPrice(totalPrice);
+                supplierOrder.setPayStatus(10001);
+                supplierOrder.setEndTime(new Date());
+
+                supplierOrderMapper.insertSelective(supplierOrder);
+
+                shopDao.delShop(jsonObject);
+            }
+            return CommonUtil.successJson();
+        } catch (Exception e) {
+//            e.printStackTrace();
+            return CommonUtil.errorJson(ErrorEnum.E_400);
+        }
+
+    }
+
+    /**
+     * 直接提交生成订单
+     * 商品直接提交生成订单
+     * 例如免费公开课
+     *
+     * @param jsonObject
+     */
+    @Override
+    public JSONObject orderSubmit(JSONObject jsonObject) {
+        try {
+            Integer userId = jsonObject.getIntValue("userId");
+            Integer supplierId = jsonObject.getIntValue("supplierId");
+            Integer goodsId = jsonObject.getIntValue("goodsId");
+            Long price = jsonObject.getLongValue("price");
+
+            Long supplierOrderId = SnowflakeUtil.getInstanceSnowflake().nextId();
+
+            SupplierOrder supplierOrder = new SupplierOrder();
+            supplierOrder.setUserId(userId);
+            supplierOrder.setSupplierId(supplierId);
+            supplierOrder.setStatus(40000);
+            supplierOrder.setCreateTime(new Date());
+            supplierOrder.setUpdateTime(new Date());
+            supplierOrder.setTotalPrice(price);
+            supplierOrder.setSupplierOrderId(supplierOrderId);
+            supplierOrder.setTimeStatus(50000);
+            supplierOrder.setPayStatus(10001);
+            supplierOrder.setEndTime(new Date());
+
+            supplierOrderMapper.insertSelective(supplierOrder);
+
+            SupplierSonOrder supplierSonOrder = new SupplierSonOrder();
+            supplierSonOrder.setSupplierOrderId(supplierOrderId);
+            supplierSonOrder.setGoodsId(goodsId);
+            supplierSonOrder.setPrice(price);
+            supplierSonOrder.setCount(1);
+
+            supplierSonOrderMapper.insertSelective(supplierSonOrder);
+
+            return CommonUtil.successJson();
+        } catch (Exception e) {
+//            e.printStackTrace();
+            return CommonUtil.errorJson(ErrorEnum.E_400);
+        }
+    }
+
+
+    /**
+     * 查询用户购物车列表
+     */
+    @Override
+    public JSONObject listShop(JSONObject jsonObject) {
+        Integer shopSize = shopDao.countShopOrderById(jsonObject);
+        JSONObject data = new JSONObject();
+        if (shopSize > 0) {
+            JSONObject shopOrderJson = shopDao.getShopOrder(jsonObject);
+            List<JSONObject> shopOrderListJson = shopDao.getShopSonOrder(shopOrderJson);
+            data.put("shopInfo", shopOrderJson);
+            data.put("shopList", shopOrderListJson);
+        }
+        return data;
+    }
+
+
 }

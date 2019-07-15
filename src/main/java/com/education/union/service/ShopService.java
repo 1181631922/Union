@@ -2,6 +2,8 @@ package com.education.union.service;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.List;
+
 /**
  * Author： fanyafeng
  * Data： 2019-07-14 18:22
@@ -22,6 +24,19 @@ public interface ShopService {
     JSONObject delGoods(JSONObject jsonObject);
 
     /**
-     *
+     * 提交购物车生成订单
      */
+    JSONObject shopSubmit(JSONObject jsonObject);
+
+    /**
+     * 直接提交生成订单
+     * 商品直接提交生成订单
+     * 例如免费公开课
+     */
+    JSONObject orderSubmit(JSONObject jsonObject);
+
+    /**
+     * 查询用户购物车
+     */
+    JSONObject listShop(JSONObject jsonObject);
 }

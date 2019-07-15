@@ -55,15 +55,15 @@ public class SnowflakeUtil {
         if (workerId > MAX_WORKER_ID || workerId < 0) {
             System.out.println(String.format("%s 机器最大值必须是 %d 到 %d 之间", workerId, 0, MAX_WORKER_ID));
             workerId = getRandom();
-            System.out.println("re workerId:" + workerId);
+//            System.out.println("re workerId:" + workerId);
         }
 
         if (dataCenterId > MAX_DATA_CENTER_ID || dataCenterId < 0) {
 
             throw new IllegalArgumentException(String.format("%s 数据中心ID最大值 必须是 %d 到 %d 之间", dataCenterId, 0, MAX_DATA_CENTER_ID));
         }
-        System.out.println("workerId:" + workerId);
-        System.out.println("dataCenterId:" + dataCenterId);
+//        System.out.println("workerId:" + workerId);
+//        System.out.println("dataCenterId:" + dataCenterId);
         this.workerId = workerId;
         this.dataCenterId = dataCenterId;
     }

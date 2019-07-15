@@ -41,7 +41,7 @@
             so.status             status,
             so.time_status        timeStatus,
             so.pay_status         payStatus,
-            sso.id                sonOrderId,
+            sso.supplier_order_id                sonOrderId,
             g.id                  goodsId,
             g.goods_name          goodsName,
             g.goods_url           goodsUrl,
@@ -55,7 +55,7 @@
             s.id                  supplierId,
             s.name                supplierName
         from t_supplier_order so
-                left join t_supplier_son_order sso on so.id = sso.supplier_order_id
+                left join t_supplier_son_order sso on so.supplier_order_id = sso.supplier_order_id
                 left join t_user u on so.user_id = u.id
                 left join t_supplier s on so.supplier_id = s.id
                 left join t_goods g on sso.goods_id = g.id

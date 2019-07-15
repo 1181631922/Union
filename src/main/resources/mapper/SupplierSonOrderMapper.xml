@@ -3,13 +3,14 @@
 <mapper namespace="com.education.union.dao.SupplierSonOrderMapper">
   <resultMap id="BaseResultMap" type="com.education.union.model.SupplierSonOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="supplier_order_id" jdbcType="INTEGER" property="supplierOrderId" />
     <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="supplier_order_id" jdbcType="BIGINT" property="supplierOrderId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, supplier_order_id, goods_id, status, price
+    id, goods_id, status, price, count, supplier_order_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -22,19 +23,18 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.education.union.model.SupplierSonOrder">
-    insert into t_supplier_son_order (id, supplier_order_id, goods_id, 
-      status, price)
-    values (#{id,jdbcType=INTEGER}, #{supplierOrderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL})
+    insert into t_supplier_son_order (id, goods_id, status, 
+      price, count, supplier_order_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{price,jdbcType=DECIMAL}, #{count,jdbcType=INTEGER}, #{supplierOrderId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.education.union.model.SupplierSonOrder">
     insert into t_supplier_son_order
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
-      </if>
-      <if test="supplierOrderId != null">
-        supplier_order_id,
       </if>
       <if test="goodsId != null">
         goods_id,
@@ -45,13 +45,16 @@
       <if test="price != null">
         price,
       </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="supplierOrderId != null">
+        supplier_order_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
-      </if>
-      <if test="supplierOrderId != null">
-        #{supplierOrderId,jdbcType=INTEGER},
       </if>
       <if test="goodsId != null">
         #{goodsId,jdbcType=INTEGER},
@@ -62,14 +65,17 @@
       <if test="price != null">
         #{price,jdbcType=DECIMAL},
       </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="supplierOrderId != null">
+        #{supplierOrderId,jdbcType=BIGINT},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.education.union.model.SupplierSonOrder">
     update t_supplier_son_order
     <set>
-      <if test="supplierOrderId != null">
-        supplier_order_id = #{supplierOrderId,jdbcType=INTEGER},
-      </if>
       <if test="goodsId != null">
         goods_id = #{goodsId,jdbcType=INTEGER},
       </if>
@@ -79,15 +85,22 @@
       <if test="price != null">
         price = #{price,jdbcType=DECIMAL},
       </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="supplierOrderId != null">
+        supplier_order_id = #{supplierOrderId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.education.union.model.SupplierSonOrder">
     update t_supplier_son_order
-    set supplier_order_id = #{supplierOrderId,jdbcType=INTEGER},
-      goods_id = #{goodsId,jdbcType=INTEGER},
+    set goods_id = #{goodsId,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
-      price = #{price,jdbcType=DECIMAL}
+      price = #{price,jdbcType=DECIMAL},
+      count = #{count,jdbcType=INTEGER},
+      supplier_order_id = #{supplierOrderId,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

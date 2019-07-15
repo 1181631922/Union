@@ -13,6 +13,8 @@ public class ShoppingSonOrder {
 
     private Boolean deleteStatus;
 
+    private Integer count;
+
     public Integer getId() {
         return id;
     }
@@ -59,5 +61,13 @@ public class ShoppingSonOrder {
 
     public void setDeleteStatus(Boolean deleteStatus) {
         this.deleteStatus = deleteStatus;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
     }
 }

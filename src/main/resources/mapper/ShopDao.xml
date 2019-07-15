@@ -19,6 +19,17 @@
             and so.user_id=#{userId}
     </select>
 
+    <select id="getShopSonOrder" resultType="com.alibaba.fastjson.JSONObject">
+        select sso.id           shopSonOrderId,
+            sso.goods_id        goodsId,
+            sso.status          status,
+            sso.price           price,
+            sso.count           count
+        from t_shopping_son_order sso
+        where sso.delete_status=0
+            and sso.shopping_order_id=#{shopOrderId}
+    </select>
+
     <update id="delGoods" >
         update t_shopping_son_order sso
         set sso.delete_status=1
@@ -27,4 +38,10 @@
             and sso.delete_status=0
     </update>
 
+    <update id="delShop" >
+        update t_shopping_order so
+        set so.delete_status=1
+        where so.user_id=#{userId}
+            and so.delete_status=0
+    </update>
 </mapper>

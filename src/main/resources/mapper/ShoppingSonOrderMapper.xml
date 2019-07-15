@@ -8,12 +8,13 @@
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="shopping_order_id" jdbcType="INTEGER" property="shoppingOrderId" />
     <result column="delete_status" jdbcType="BIT" property="deleteStatus" />
+    <result column="count" jdbcType="INTEGER" property="count" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, goods_id, status, price, shopping_order_id, delete_status
+    id, goods_id, status, price, shopping_order_id, delete_status, count
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_shopping_son_order
     where id = #{id,jdbcType=INTEGER}
@@ -24,11 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.education.union.model.ShoppingSonOrder" keyProperty="id" useGeneratedKeys="true">
     insert into t_shopping_son_order (id, goods_id, status, 
-      price, shopping_order_id, delete_status
-      )
+      price, shopping_order_id, delete_status, 
+      count)
     values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{price,jdbcType=DECIMAL}, #{shoppingOrderId,jdbcType=INTEGER}, #{deleteStatus,jdbcType=BIT}
-      )
+      #{price,jdbcType=DECIMAL}, #{shoppingOrderId,jdbcType=INTEGER}, #{deleteStatus,jdbcType=BIT}, 
+      #{count,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.education.union.model.ShoppingSonOrder" keyProperty="id" useGeneratedKeys="true">
     insert into t_shopping_son_order
@@ -51,6 +52,9 @@
       <if test="deleteStatus != null">
         delete_status,
       </if>
+      <if test="count != null">
+        count,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -70,6 +74,9 @@
       </if>
       <if test="deleteStatus != null">
         #{deleteStatus,jdbcType=BIT},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -91,6 +98,9 @@
       <if test="deleteStatus != null">
         delete_status = #{deleteStatus,jdbcType=BIT},
       </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -100,7 +110,8 @@
       status = #{status,jdbcType=INTEGER},
       price = #{price,jdbcType=DECIMAL},
       shopping_order_id = #{shoppingOrderId,jdbcType=INTEGER},
-      delete_status = #{deleteStatus,jdbcType=BIT}
+      delete_status = #{deleteStatus,jdbcType=BIT},
+      count = #{count,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
