@@ -73,16 +73,16 @@
 <!--               enableDeleteByExample="false"-->
 <!--               enableSelectByExample="false"-->
 <!--               enableUpdateByExample="false"/>-->
-<!--        <table tableName="t_shopping_order" domainObjectName="ShoppingOrder"-->
-<!--               enableCountByExample="false"-->
-<!--               enableDeleteByExample="false"-->
-<!--               enableSelectByExample="false"-->
-<!--               enableUpdateByExample="false"/>-->
-<!--        <table tableName="t_shopping_son_order" domainObjectName="ShoppingSonOrder"-->
-<!--               enableCountByExample="false"-->
-<!--               enableDeleteByExample="false"-->
-<!--               enableSelectByExample="false"-->
-<!--               enableUpdateByExample="false"/>-->
+        <table tableName="t_shopping_order" domainObjectName="ShoppingOrder"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"/>
+        <table tableName="t_shopping_son_order" domainObjectName="ShoppingSonOrder"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"/>
 <!--        <table tableName="t_status" domainObjectName="Status"-->
 <!--               enableCountByExample="false"-->
 <!--               enableDeleteByExample="false"-->
@@ -103,11 +103,11 @@
 <!--               enableDeleteByExample="false"-->
 <!--               enableSelectByExample="false"-->
 <!--               enableUpdateByExample="false"/>-->
-        <table tableName="t_supplier_son_order" domainObjectName="SupplierSonOrder"
-               enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               enableUpdateByExample="false"/>
+<!--        <table tableName="t_supplier_son_order" domainObjectName="SupplierSonOrder"-->
+<!--               enableCountByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               enableUpdateByExample="false"/>-->
 <!--        <table tableName="t_user" domainObjectName="User"-->
 <!--               enableCountByExample="false"-->
 <!--               enableDeleteByExample="false"-->

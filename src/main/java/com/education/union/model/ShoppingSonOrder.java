@@ -7,8 +7,6 @@ public class ShoppingSonOrder {
 
     private Integer status;
 
-    private Long price;
-
     private Integer shoppingOrderId;
 
     private Boolean deleteStatus;
@@ -37,14 +35,6 @@ public class ShoppingSonOrder {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Long getPrice() {
-        return price;
-    }
-
-    public void setPrice(Long price) {
-        this.price = price;
     }
 
     public Integer getShoppingOrderId() {

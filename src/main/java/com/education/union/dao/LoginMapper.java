@@ -17,7 +17,13 @@ public interface LoginMapper {
     JSONObject getUser(@Param("mobile") String mobile, @Param("password") String password);
 
     /**
-     * 根据永华手机号和密码查找用户id，token
+     * 根据用户手机号和密码查找用户id，token
      */
     JSONObject getToken(String mobile,String password);
+
+//    /**
+//     * 获取用户信息
+//     * @return
+//     */
+//    JSONObject getUserInfo(JSONObject jsonObject);
 }

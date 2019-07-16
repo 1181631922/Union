@@ -36,7 +36,6 @@ public class ShopSonOrderTests {
         shoppingSonOrder.setShoppingOrderId(1);
         shoppingSonOrder.setGoodsId(1);
         shoppingSonOrder.setStatus(0);
-        shoppingSonOrder.setPrice(799L);
         shoppingSonOrderMapper.insert(shoppingSonOrder);
         System.out.println(shoppingSonOrder.getId());
     }
@@ -56,8 +55,17 @@ public class ShopSonOrderTests {
     @Test
     public void delShopSonOrder(){
         JSONObject jsonObject=new JSONObject();
-        jsonObject.put("goodsId",10);
-        jsonObject.put("userId",5);
-        shopService.delGoods(jsonObject);
+        jsonObject.put("goodsId",25);
+        jsonObject.put("userId",3);
+        System.out.println(shopService.delGoods(jsonObject));
+    }
+
+    @Test
+    public void updateShopSonOrder(){
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("goodsId",25);
+        jsonObject.put("userId",3);
+        jsonObject.put("goodsCount",2);
+        System.out.println(shopService.addGoods(jsonObject));
     }
 }

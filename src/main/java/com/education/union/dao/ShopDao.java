@@ -18,5 +18,11 @@ public interface ShopDao {
 
     Integer delGoods(JSONObject jsonObject);
 
+    Integer updateGoods(JSONObject jsonObject);
+
     Integer delShop(JSONObject jsonObject);
+
+    Integer countShopSonOrderById(JSONObject jsonObject);
+
+    JSONObject getShopSonOrderById(JSONObject jsonObject);
 }

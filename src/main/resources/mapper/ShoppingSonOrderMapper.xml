@@ -5,16 +5,15 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
     <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="shopping_order_id" jdbcType="INTEGER" property="shoppingOrderId" />
     <result column="delete_status" jdbcType="BIT" property="deleteStatus" />
     <result column="count" jdbcType="INTEGER" property="count" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, goods_id, status, price, shopping_order_id, delete_status, count
+    id, goods_id, status, shopping_order_id, delete_status, count
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from t_shopping_son_order
     where id = #{id,jdbcType=INTEGER}
@@ -25,11 +24,11 @@
   </delete>
   <insert id="insert" parameterType="com.education.union.model.ShoppingSonOrder" keyProperty="id" useGeneratedKeys="true">
     insert into t_shopping_son_order (id, goods_id, status, 
-      price, shopping_order_id, delete_status, 
-      count)
+      shopping_order_id, delete_status, count
+      )
     values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{price,jdbcType=DECIMAL}, #{shoppingOrderId,jdbcType=INTEGER}, #{deleteStatus,jdbcType=BIT}, 
-      #{count,jdbcType=INTEGER})
+      #{shoppingOrderId,jdbcType=INTEGER}, #{deleteStatus,jdbcType=BIT}, #{count,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.education.union.model.ShoppingSonOrder" keyProperty="id" useGeneratedKeys="true">
     insert into t_shopping_son_order
@@ -42,9 +41,6 @@
       </if>
       <if test="status != null">
         status,
-      </if>
-      <if test="price != null">
-        price,
       </if>
       <if test="shoppingOrderId != null">
         shopping_order_id,
@@ -66,9 +62,6 @@
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="price != null">
-        #{price,jdbcType=DECIMAL},
-      </if>
       <if test="shoppingOrderId != null">
         #{shoppingOrderId,jdbcType=INTEGER},
       </if>
@@ -89,9 +82,6 @@
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="price != null">
-        price = #{price,jdbcType=DECIMAL},
-      </if>
       <if test="shoppingOrderId != null">
         shopping_order_id = #{shoppingOrderId,jdbcType=INTEGER},
       </if>
@@ -108,7 +98,6 @@
     update t_shopping_son_order
     set goods_id = #{goodsId,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
-      price = #{price,jdbcType=DECIMAL},
       shopping_order_id = #{shoppingOrderId,jdbcType=INTEGER},
       delete_status = #{deleteStatus,jdbcType=BIT},
       count = #{count,jdbcType=INTEGER}

@@ -19,11 +19,12 @@ import java.util.List;
 public class UserController {
 
     /**
-     * 获取订单列表
+     * 获取用户信息
      * @return
      */
-    @GetMapping("/getGoods")
-    public JSONObject getGoods() {
+    @GetMapping("/getInfo")
+    public JSONObject getInfo() {
+
         return null;
     }
 }

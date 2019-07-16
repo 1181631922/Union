@@ -24,18 +24,18 @@ public class ShopController {
     private ShopService shopService;
 
     /**
-     * 向购物车添加商品
+     * 向购物车添加和更新
      * 暂时默认数量都为1
      *
      * @param jsonObject
      * @param user
      * @return
      */
-    @PostMapping("/addGoods")
-    public JSONObject addGoods(@RequestBody JSONObject jsonObject, User user) {
+    @PostMapping("/updateGoods")
+    public JSONObject updateGoods(@RequestBody JSONObject jsonObject, User user) {
         Integer userId = user.getId();
         jsonObject.put("userId", userId);
-        CommonUtil.hasAllRequired(jsonObject, "goodsId,price");
+        CommonUtil.hasAllRequired(jsonObject, "goodsId,goodsCount");
         return CommonUtil.successJson(shopService.addGoods(jsonObject));
     }
 

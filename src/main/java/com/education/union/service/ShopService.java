@@ -24,6 +24,12 @@ public interface ShopService {
     JSONObject delGoods(JSONObject jsonObject);
 
     /**
+     * 更新商品数量
+     * 如果是0的话直接调用删除，不能传0
+     */
+    JSONObject updateGoods(JSONObject jsonObject);
+
+    /**
      * 提交购物车生成订单
      */
     JSONObject shopSubmit(JSONObject jsonObject);

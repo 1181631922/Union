@@ -4,14 +4,13 @@
   <resultMap id="BaseResultMap" type="com.education.union.model.ShoppingOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_status" jdbcType="BIT" property="deleteStatus" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, total_price, status, create_time, update_time, delete_status
+    id, user_id, status, create_time, update_time, delete_status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -24,12 +23,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.education.union.model.ShoppingOrder" keyProperty="id" useGeneratedKeys="true">
-    insert into t_shopping_order (id, user_id, total_price, 
-      status, create_time, update_time, 
-      delete_status)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{totalPrice,jdbcType=DECIMAL}, 
-      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteStatus,jdbcType=BIT})
+    insert into t_shopping_order (id, user_id, status, 
+      create_time, update_time, delete_status
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteStatus,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.education.union.model.ShoppingOrder" keyProperty="id" useGeneratedKeys="true">
     insert into t_shopping_order
@@ -39,9 +38,6 @@
       </if>
       <if test="userId != null">
         user_id,
-      </if>
-      <if test="totalPrice != null">
-        total_price,
       </if>
       <if test="status != null">
         status,
@@ -63,9 +59,6 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="totalPrice != null">
-        #{totalPrice,jdbcType=DECIMAL},
-      </if>
       <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
@@ -86,9 +79,6 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="totalPrice != null">
-        total_price = #{totalPrice,jdbcType=DECIMAL},
-      </if>
       <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
@@ -107,7 +97,6 @@
   <update id="updateByPrimaryKey" parameterType="com.education.union.model.ShoppingOrder">
     update t_shopping_order
     set user_id = #{userId,jdbcType=INTEGER},
-      total_price = #{totalPrice,jdbcType=DECIMAL},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

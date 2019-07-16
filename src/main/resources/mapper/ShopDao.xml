@@ -10,7 +10,6 @@
 
     <select id="getShopOrder" resultType="com.alibaba.fastjson.JSONObject">
         select so.id                 shopOrderId,
-            so.total_price           totalPrice,
             so.status                   status,
             DATE_FORMAT(so.create_time, '%Y.%m.%d %T')              createTime,
             DATE_FORMAT(so.update_time, '%Y.%m.%d %T')             updateTime
@@ -23,25 +22,56 @@
         select sso.id           shopSonOrderId,
             sso.goods_id        goodsId,
             sso.status          status,
-            sso.price           price,
+            g.price           price,
             sso.count           count
         from t_shopping_son_order sso
+        left join t_goods g on g.id=sso.goods_id
         where sso.delete_status=0
             and sso.shopping_order_id=#{shopOrderId}
     </select>
 
-    <update id="delGoods" >
+    <update id="delGoods">
         update t_shopping_son_order sso
         set sso.delete_status=1
         where sso.shopping_order_id=#{shopOrderId}
-        and sso.goods_id = #{goodsId}
+            and sso.goods_id = #{goodsId}
             and sso.delete_status=0
     </update>
 
-    <update id="delShop" >
+    <update id="updateGoods">
+        update t_shopping_son_order sso
+        set sso.count=#{goodsCount}
+        where sso.shopping_order_id=#{shopOrderId}
+            and sso.goods_id = #{goodsId}
+            and sso.delete_status=0
+    </update>
+
+    <update id="delShop">
         update t_shopping_order so
         set so.delete_status=1
         where so.user_id=#{userId}
             and so.delete_status=0
     </update>
+
+    <select id="countShopSonOrderById" resultType="Integer">
+        select count(0)
+        from t_shopping_son_order sso
+        where sso.goods_id = #{goodsId}
+            and sso.delete_status=0
+            and sso.shopping_order_id=#{shopOrderId}
+    </select>
+
+    <select id="getShopSonOrderById" resultType="com.alibaba.fastjson.JSONObject">
+        select sso.id           id,
+            sso.goods_id        goodsId,
+            sso.status          status,
+            g.price           price,
+            sso.shopping_order_id shopOrderId,
+            sso.count           count
+        from t_shopping_son_order sso
+        left join t_goods g on g.id=sso.goods_id
+        where sso.delete_status=0
+            and sso.goods_id=#{goodsId}
+            and sso.shopping_order_id=#{shopOrderId}
+    </select>
 </mapper>

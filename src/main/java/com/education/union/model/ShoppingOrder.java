@@ -7,8 +7,6 @@ public class ShoppingOrder {
 
     private Integer userId;
 
-    private Long totalPrice;
-
     private Integer status;
 
     private Date createTime;
@@ -31,14 +29,6 @@ public class ShoppingOrder {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Long getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Long totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public Integer getStatus() {

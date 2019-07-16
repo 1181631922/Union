@@ -2,10 +2,7 @@ package com.education.union.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.education.union.dao.*;
-import com.education.union.model.ShoppingOrder;
-import com.education.union.model.ShoppingSonOrder;
-import com.education.union.model.SupplierOrder;
-import com.education.union.model.SupplierSonOrder;
+import com.education.union.model.*;
 import com.education.union.service.ShopService;
 import com.education.union.util.CommonUtil;
 import com.education.union.util.SnowflakeUtil;
@@ -33,6 +30,9 @@ public class ShopServiceImpl implements ShopService {
     private OrderDao orderDao;
 
     @Resource
+    private GoodsMapper goodsMapper;
+
+    @Resource
     private ShoppingSonOrderMapper shoppingSonOrderMapper;
 
     @Resource
@@ -45,47 +45,72 @@ public class ShopServiceImpl implements ShopService {
     private SupplierSonOrderMapper supplierSonOrderMapper;
 
     /**
-     * 添加商品
+     * 添加和更新商品
      * 如果用户有父订单则不生成，如果没有生成父订单，然后再生成子订单挂在父订单上
      */
     @Override
     public JSONObject addGoods(JSONObject jsonObject) {
         Integer userId = jsonObject.getIntValue("userId");
+        Integer goodsId = jsonObject.getIntValue("goodsId");
 
-        ShoppingSonOrder shoppingSonOrder = new ShoppingSonOrder();
-        shoppingSonOrder.setGoodsId(jsonObject.getIntValue("goodsId"));
-        shoppingSonOrder.setStatus(jsonObject.getIntValue("status"));
-        shoppingSonOrder.setPrice(jsonObject.getLongValue("price"));
+        Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
+
+        Integer goodsCount = jsonObject.getIntValue("goodsCount");
+        Integer count = goodsCount == 0 ? 1 : goodsCount;
 
         Integer shopOrderSize = shopDao.countShopOrderById(jsonObject);
 
+        ShoppingSonOrder shoppingSonOrder = new ShoppingSonOrder();
         ShoppingOrder shoppingOrder = new ShoppingOrder();
         Integer shopOrderId;
         if (shopOrderSize < 1) {
             //先创建父订单，后创建子订单
             shoppingOrder.setCreateTime(new Date());
             shoppingOrder.setStatus(10001);
-            shoppingOrder.setTotalPrice(0L);
             shoppingOrder.setUserId(userId);
-            shoppingOrder.setTotalPrice(0L);
             shoppingOrderMapper.insertSelective(shoppingOrder);
             shopOrderId = shoppingOrder.getId();
+
+            shoppingSonOrder.setGoodsId(goodsId);
+            shoppingSonOrder.setStatus(goods.getStatus());
+            shoppingSonOrder.setCount(count);
+
+            shoppingSonOrder.setShoppingOrderId(shopOrderId);
+            shoppingSonOrderMapper.insertSelective(shoppingSonOrder);
 
         } else {
             //直接挂在父订单下
             JSONObject shopOrderObject = shopDao.getShopOrder(jsonObject);
-            shoppingOrder.setTotalPrice(shopOrderObject.getLongValue("totalPrice"));
             shopOrderId = shopOrderObject.getIntValue("shopOrderId");
-
+            jsonObject.put("shopOrderId", shopOrderId);
+            shoppingSonOrder.setShoppingOrderId(shopOrderId);
+            if (shopDao.countShopSonOrderById(jsonObject) > 0) {
+                JSONObject shopSonOrderJson = shopDao.getShopSonOrderById(jsonObject);
+                shoppingSonOrder.setId(shopSonOrderJson.getIntValue("id"));
+                shoppingSonOrder.setStatus(shopSonOrderJson.getIntValue("status"));
+                Long price = shopSonOrderJson.getLongValue("price");
+                Integer goodCount = shopSonOrderJson.getIntValue("count");
+                shoppingSonOrder.setCount(goodCount + count);
+                shoppingSonOrderMapper.updateByPrimaryKeySelective(shoppingSonOrder);
+            } else {
+                shoppingSonOrder.setGoodsId(goodsId);
+                shoppingSonOrder.setStatus(goods.getStatus());
+                shoppingSonOrder.setCount(count);
+                shoppingSonOrderMapper.insertSelective(shoppingSonOrder);
+            }
         }
-        shoppingSonOrder.setShoppingOrderId(shopOrderId);
-        shoppingSonOrderMapper.insertSelective(shoppingSonOrder);
 
         shoppingOrder.setId(shopOrderId);
         shoppingOrder.setUserId(userId);
         shoppingOrder.setUpdateTime(new Date());
-        Long totalPrice = shoppingOrder.getTotalPrice() + shoppingSonOrder.getPrice();
-        shoppingOrder.setTotalPrice(totalPrice);
+
+        List<JSONObject> shopSonOrderJson = shopDao.getShopSonOrder(jsonObject);
+        Long totalPrice = 0L;
+        for (int i = 0; i < shopSonOrderJson.size(); i++) {
+            JSONObject item = shopSonOrderJson.get(i);
+            totalPrice += (item.getLongValue("price") * item.getIntValue("count"));
+        }
+
 
         shoppingOrderMapper.updateByPrimaryKeySelective(shoppingOrder);
 
@@ -98,6 +123,7 @@ public class ShopServiceImpl implements ShopService {
     /**
      * 删除商品
      * 避免物理删除，进行状态改变
+     *
      */
     @Override
     public JSONObject delGoods(JSONObject jsonObject) {
@@ -106,9 +132,30 @@ public class ShopServiceImpl implements ShopService {
         JSONObject shopOrderJson = shopDao.getShopOrder(jsonObject);
 //        Integer shopOrderId = shopOrderJson.getIntValue("shopOrderId");
         shopOrderJson.put("goodsId", goodsId);
+        Integer shopOrderId = shopOrderJson.getIntValue("shopOrderId");
+        jsonObject.put("shopOrderId", shopOrderId);
         shopDao.delGoods(shopOrderJson);
-        return CommonUtil.successJson();
+        return CommonUtil.successJson(shopDao.getShopSonOrder(jsonObject));
     }
+
+    /**
+     * 更新商品数量
+     * 如果是0的话直接调用删除，不能传0
+     *
+     * @param jsonObject
+     */
+    @Override
+    public JSONObject updateGoods(JSONObject jsonObject) {
+        //userId goodsCount shopOrderId goodsId
+        Integer goodsId = jsonObject.getIntValue("goodsId");
+        JSONObject shopOrderJson = shopDao.getShopOrder(jsonObject);
+        shopOrderJson.put("goodsId", goodsId);
+        Integer shopOrderId = shopOrderJson.getIntValue("shopOrderId");
+        jsonObject.put("shopOrderId", shopOrderId);
+        shopDao.updateGoods(jsonObject);
+        return CommonUtil.successJson(shopDao.getShopSonOrder(jsonObject));
+    }
+
 
     /**
      * 提交购物车生成订单
@@ -141,7 +188,7 @@ public class ShopServiceImpl implements ShopService {
                     Integer goodsId = item.getIntValue("goodsId");
                     Long price = item.getLongValue("price");
                     Integer count = item.getIntValue("count");
-                    item.put("shopOrderId",shopOrderId);
+                    item.put("shopOrderId", shopOrderId);
 
                     SupplierSonOrder supplierSonOrder = new SupplierSonOrder();
                     supplierSonOrder.setGoodsId(goodsId);

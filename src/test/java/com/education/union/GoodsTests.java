@@ -79,7 +79,7 @@ public class GoodsTests {
                     Integer goodsId = item.getIntValue("goodsId");
                     Long price = item.getLongValue("price");
                     Integer count = item.getIntValue("count");
-                    item.put("shopOrderId",shopOrderId);
+                    item.put("shopOrderId", shopOrderId);
 
                     SupplierSonOrder supplierSonOrder = new SupplierSonOrder();
                     supplierSonOrder.setGoodsId(goodsId);
@@ -117,5 +117,14 @@ public class GoodsTests {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("userId", 2);
         System.out.println(shopService.listShop(jsonObject));
+    }
+
+    @Test
+    public void testAddGoods() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userId", 6);
+        jsonObject.put("goodsId", 8);
+        jsonObject.put("goodsCount", 1);
+        shopService.addGoods(jsonObject);
     }
 }
